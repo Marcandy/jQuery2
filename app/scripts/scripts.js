@@ -44,7 +44,7 @@ $(document).ready(function() {
       $('#newList').append(
                         '<a href="#finish" class="" id="item">' +
                         '<li class="list-group-item">' +
-                        '<h3>' + task.task + '</h3>'+
+                        '<h3>' + task.task + '</h3  >'+
                         '<span class="arrow pull-right">' +
                         '<i class="glyphicon glyphicon-arrow-right">' +
                         '</span>' +
@@ -73,9 +73,25 @@ $(document).on('click', '#item', function (e) {
 
   var task = this;
 
-  advanceTask(task);
+  advanceTask(task); //this function advance id
   this.id = 'inProgress';
   $('#currentList').append(this.outerHTML);
+})
+
+$(document).on('click', '#inProgress', function(e) {
+  e.preventDefault();
+  var task = this;
+  task.id = 'archived';
+  var changeIcon = task.outerHTML.replace('glyphicon-arrow-right', 'glyphicon-remove');
+  advanceTask(task);
+  $('#archivedList').append(changeIcon);
+})
+
+$(document).on('click', '#archivedList', function (e) {
+  e.preventDefault();
+  var task = this;
+  task.id = '';
+  advanceTask(task);
 })
 
 });
