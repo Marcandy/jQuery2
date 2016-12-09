@@ -1,6 +1,12 @@
 $(document).ready(function() {
 
   var listo = [];
+  console.log(localStorage);
+
+  function retrievedList () {
+    return localStorage.getItem('listo');
+  }
+
 
   $('#newTaskForm').hide();
   $('#add-todo').click(function () {
@@ -31,6 +37,7 @@ $(document).ready(function() {
       break;
     }
   }
+  localStorage['listo'] = JSON.stringify(listo);
   task.remove();
 };
 
@@ -38,6 +45,7 @@ $(document).ready(function() {
     if(task) {
       task = new Task(task);
       listo.push(task);
+      localStorage['listo'] = JSON.stringify(listo);
 
       $('#newItemInput').val("");
 
@@ -53,6 +61,11 @@ $(document).ready(function() {
                       );
     }
     console.log(task);
+    // loval storage test
+
+
+
+
     $('#newTaskForm').slideToggle('fast', 'linear')
   }
 
@@ -62,6 +75,7 @@ $(document).ready(function() {
     e.preventDefault();
     var task = $('#newItemInput').val().trim();
     addTask(task);
+
   })
 
 
