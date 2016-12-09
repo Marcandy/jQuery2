@@ -17,17 +17,34 @@ $(document).ready(function() {
     this.id = 'new';
   }
 
+  var advanceTask = function(task) {
+  var modified = task.innerText.trim()
+  for (var i = 0; i < listo.length; i++) {
+    if (listo[i].task === modified) {
+      if (listo[i].id === 'new') {
+        listo[i].id = 'inProgress';
+      } else if (listo[i].id === 'inProgress') {
+        listo[i].id = 'archived';
+      } else {
+        listo.splice(i, 1);
+      }
+      break;
+    }
+  }
+  task.remove();
+};
+
   function addTask(task) {
     if(task) {
-      var newTask = new Task(task);
-      listo.push(newTask);
+      task = new Task(task);
+      listo.push(task);
 
       $('#newItemInput').val("");
 
       $('#newList').append(
                         '<a href="#finish" class="" id="item">' +
                         '<li class="list-group-item">' +
-                        '<h3>' + newTask.task + '</h3>'+
+                        '<h3>' + task.task + '</h3>'+
                         '<span class="arrow pull-right">' +
                         '<i class="glyphicon glyphicon-arrow-right">' +
                         '</span>' +
@@ -35,7 +52,7 @@ $(document).ready(function() {
                         '</a>'
                       );
     }
-    console.log(newTask);
+    console.log(task);
     $('#newTaskForm').slideToggle('fast', 'linear')
   }
 
@@ -48,5 +65,17 @@ $(document).ready(function() {
   })
 
 
+
+
+$(document).on('click', '#item', function (e) {
+  console.log(this);
+  e.preventDefault();
+
+  var task = this;
+
+  advanceTask(task);
+  this.id = 'inProgress';
+  $('#currentList').append(this.outerHTML);
+})
 
 });
